@@ -14,13 +14,18 @@ over ZMQ
 """
 
 # Standard importing of required modules
-import io
 import time
 import picamera
+import zmq
 
-camera_stream = io.BytesIO()
-with picamera.PiCamera() as camera:
-    camera.start_preview()
-    #Allow for Camera to Warm Up
-    time.sleep(2) # Units are in seconds. Two seconds is a little long but...
-    camera.capture(camera_stream, 'jpeg')
+context = zmq.Context()
+socket = context.socket(zmq.PUB)
+socket.bind("NEED GLOBAL TO PUT HERE")
+
+try:
+    with picamera.PiCamera() as camera:
+        camera.resolution = (640, 480)
+        camera.start_preview()
+        time.sleep(2)  # Two seconds is a little long but....
+        start = time.time()
+
