@@ -23,5 +23,6 @@ with picamera.PiCamera() as camera:
     server_socket.listen(0)
 
     connection = server_socket.accept()[0].makefile('wb')
-    while True:
+    while True :
         camera.start_recording(connection, format='h264')
+        camear
