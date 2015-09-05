@@ -17,15 +17,17 @@ over ZMQ
 import time
 import picamera
 import zmq
+import cStringIO as StringIO
 
-context = zmq.Context()
-socket = context.socket(zmq.PUB)
-socket.bind("NEED GLOBAL TO PUT HERE")
-
-try:
+def main():
+    context = zmq.Context()
+    socket = context.socket(zmq.PUB)
+    socket.bind("NEED GLOBAL TO PUT HERE")
+    while True:
     with picamera.PiCamera() as camera:
-        camera.resolution = (640, 480)
-        camera.start_preview()
-        time.sleep(2)  # Two seconds is a little long but....
-        start = time.time()
-
+        with picamera.array.PiRGBArray(camera) as output:
+            camera.resolution = (1280, 720)
+            camera.capture(output, jpeg,  'rgb')
+            f = StringIO.StringIO()
+            camera.capture
+            socket.send_multipart(["",b"B",b"VF",f.getvalue()])
