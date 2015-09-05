@@ -14,5 +14,5 @@ import picamera.array
 
 with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as output:
-        camera.capture(output, 'rgb')
+        camera.capture(output, 'jpeg', 'rgb')
         print("Captured %d%d image" % (output.array.sharpe[1], output.array.shape[0]))
