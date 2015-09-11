@@ -28,6 +28,38 @@ def get_operating_system():
     return operating_sys
 
 
+def platform_detect():
+    """
+    Method detects if platform is a supported platform
+    """
+    # Check if platform is Raspberry Pi
+    pi = pi_version()
+    if pi is not None:
+        return RASPBERRY_PI
+
+    # Check if platform is BeagleBone
+    # Adafruit source mentions checking the /proc/cpuinfo rather than
+    # the platform
+    plat = platform.platform()
+    if plat.lower().find('armv71-with-debian') > -1:
+        return BEAGLEBONE_BLACK
+    elif plat.lower().find('armv71-with-ubuntu') > -1:
+        return BEAGLEBONE_BLACK  # Um... Isn't Ubuntu Debian?
+    elif plat.lower().find('armv71-with-glibc2.4') > -1:
+        return BEAGLEBONE_BLACK
+
+    try:
+        import mraa
+        if mraa.getPlatformName()=='MinnowBoard MAX':
+            return MINNOWBOARD
+    except ImportError:
+        pass
+
+    # TODO: Figure out how to check CubieBoard
+    # Assuming that I can do the same as with the BEAGLE_BONE fix and
+    # Check /proc/cpuinfo and see if it's using an allwinner
+
+
 def get_python_version():
     python_version = sys.version
     if python_version[:1] != '3':
