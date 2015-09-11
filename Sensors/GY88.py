@@ -10,7 +10,7 @@
 """
 This is the Python Driver for the GY-88 IMU Breakout board written in Python
 """
-
+import smbus
 import logging
 import time
 

@@ -1,6 +1,7 @@
 €}q(URapidCapStream]q(UstreamqUclient_socketqUstartqU
-connectionqUcameraqUfooqeU
-CameraTest]q	(Uoutputq
-heUConeectionStreamer]q(Userver_socketqU
-connectionqUcameraqeUCameraBurst]qhaUCameraStreamer]qUmainqaUCameraBurstGenerator]q(UfinishqhhUframesqeUConnectionStreamer]q(Userver_socketqhheUshutil]q(UcopyfileqUignore_patternsqUcopytreeqUget_archive_formatsqUcopyfileobjqUregister_archive_formatqUcopymodeqUmake_archiveqUmoveq Uunregister_archive_formatq!Urmtreeq"UErrorq#Ucopyq$U	ExecErrorq%Ucopy2q&USpecialFileErrorq'Ucopystatq(UWindowsErrorq)eUos]q*(Upopen4q+Uexecleq,Upopen3q-USEEK_CURq.Uspawnlpq/Uexeclpq0Uenvironq1Uspawnvpq2Uspawnlq3Uexecvpq4Umakedirsq5Ulinesepq6UP_WAITq7Uspawnvq8Uspawnveq9Uexecvpeq:Uunsetenvq;USEEK_SETq<Ugetenvq=Upopen2q>Uwalkq?Uspawnleq@UexeclqAUnameqBUSEEK_ENDqCUspawnlpeqDU	P_NOWAITOqEUP_NOWAITqFU
-removedirsqGUrenamesqHUspawnvpeqIUexeclpeqJeu.
+connectionqUcameraqUfooqeUBlinky]q	Ublinkyq
+aU
+CameraTest]q(UoutputqheUConeectionStreamer]q(Userver_socketqU
+connectionqUcameraqeUCameraStreamer]qUmainqaUCameraBurst]qhaUCameraBurstGenerator]q(UfinishqhhUframesqeUConnectionStreamer]q(Userver_socketqU
+connectionqUcameraqeUI2CIMU]Ushutil]q(UcopyfileqUignore_patternsqUcopytreeqUget_archive_formatsqUcopyfileobjq Uregister_archive_formatq!Ucopymodeq"Umake_archiveq#Umoveq$Uunregister_archive_formatq%Urmtreeq&UErrorq'Ucopyq(U	ExecErrorq)Ucopy2q*USpecialFileErrorq+Ucopystatq,UWindowsErrorq-eUos]q.(Upopen4q/Uexecleq0Upopen3q1USEEK_CURq2Uspawnlpq3Uexeclpq4Uenvironq5Uspawnvpq6Uspawnlq7Uexecvpq8Umakedirsq9Ulinesepq:UP_WAITq;Uspawnvq<Uspawnveq=Uexecvpeq>Uunsetenvq?USEEK_SETq@UgetenvqAUpopen2qBUwalkqCUspawnleqDUexeclqEUnameqFUSEEK_ENDqGUspawnlpeqHU	P_NOWAITOqIUP_NOWAITqJU
+removedirsqKUrenamesqLUspawnvpeqMUexeclpeqNeu.
