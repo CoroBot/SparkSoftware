@@ -13,5 +13,3 @@ Devices using Python
 
 import RPi.GPIO as GPIO
 import time
-
-
