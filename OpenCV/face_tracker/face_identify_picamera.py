@@ -33,12 +33,15 @@ for frame in camera.capture_continuous(rawCapture, format='bgr',
                                           minNeighbors=5,
                                           minSize=(30, 30),
                                           flags=cv2.CASCADE_SCALE_IMAGE)
+
+    print("Found {0} faces.".format(len(faces)))
+
     for (x, y, w, h) in faces:
         cv2.rectangle(image, (x, y), (x+w, y+h), (0, 0, 255), 2)
         center_point = ((x+(x+w))/2, (y+(y+h))/2)
         cv2.rectangle(image, center_point, center_point, (255, 0, 0), 8)
 
-    cv2.imshow("Faces", image)
+#    cv2.imshow("Faces", image)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
