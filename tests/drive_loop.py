@@ -3,6 +3,7 @@
 import sys
 from Spark_Control import HID_Comm, NET_ZMQ_Comm, Spark_Drive
 import time
+#import constants
 
 '''
 CoroBot spark test script - "drive_loop.py"
@@ -14,19 +15,9 @@ on the spark kit, as well as insert software delays between actions.
 '''
 
 def main():
-	'''
-	addr = raw_input("Address of target (tcp://its.ip.add.ress:port) or hit enter for local USB:")
-	if addr == "-":
-		addr = "tcp://raspberrypi.local:4567"
-	if addr == "":
-		comm = HID_Comm()
-		try:
-			comm.open()
-		except IOError, ex:
-			print "Spark not found:",ex
-			sys.exit()
-	else:
-	'''
+	#This is how you should connect to your spark. This code must execute
+	#before the raspberry pi can talk to the spark hat.
+	
 	addr = "tcp://raspberrypi.local:4567"
 	comm = NET_ZMQ_Comm()
 	try:
@@ -36,13 +27,14 @@ def main():
 		sys.exit()
 	
 	spark = Spark_Drive(comm)
-	drive_loop(spark)
+	drive_loop(spark) #call the never ending "drive_loop" function
 	
+
 def drive_loop(spark):
 	while(1):
 		#drive forward
 		print("Driving forward for 3 seconds...")
-		spark.set_motor_speed(6, 12500)
+		spark.set_motor_speed(6, 12500) #lets give the user these controls: named motor constants, percentage of speed 0-1).
 		spark.set_motor_speed(5, 12500)
 		#repeat command to try and get more consistent sets on motor speed.
 		spark.set_motor_speed(6, 12500)
