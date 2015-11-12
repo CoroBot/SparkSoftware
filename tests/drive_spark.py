@@ -4,31 +4,48 @@ import sys
 from Spark_Control import HID_Comm, NET_ZMQ_Comm, Spark_Drive
 from readchar import readkey
 
+instructions = """
+Remote Control test script
+
+To drive your spark, use the "WASD" keys as arrow keys:
+
+'W' increases forward velocity
+'S' increases reverse velocity
+
+'A' makes the robot steer left
+'D' makes the robot steer right
+
+Use the spacebar to stop the robot.
+
+Hold shift and press 'x' to exit this program.
+
+WARNING: If you lose control, simply rerun this script.
+"""
 
 def main():
-	addr = raw_input("Address of target (tcp://its.ip.add.ress:port) or hit enter for local USB:")
-	if addr == "-":
-		addr = "tcp://raspberrypi.local:4567"
-	if addr == "":
-		comm = HID_Comm()
-		try:
-			comm.open()
-		except IOError, ex:
-			print "Spark not found:",ex
-			sys.exit()
-	else:
-		comm = NET_ZMQ_Comm()
-		try:
-			comm.open(addr)
-		except:
-			print "Error connecting to Spark"
-			sys.exit()
+	#This is how you should connect to your spark. This code must execute
+	#before the raspberry pi can talk to the spark hat.
+	
+	addr = "tcp://raspberrypi.local:4567"
+	comm = NET_ZMQ_Comm()
+	try:
+		comm.open(addr)
+	except:
+		print "Error connecting to Spark"
+		sys.exit()
 	
 	spark = Spark_Drive(comm)
+	print(instructions)
 	drive_spark(spark)
 
 
 def drive_spark(spark):
+
+	spark.set_motor_direction(6, 0)
+	spark.set_motor_direction(5, 0)
+	spark.set_motor_speed(6, 0)
+	spark.set_motor_speed(5, 0)
+	
 	max_speed = 65000
 	dir_l = 0
 	dir_r = 0
