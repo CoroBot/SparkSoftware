@@ -23,7 +23,7 @@ def ordlist(x):
 	   Example:
 	       ordlist("\x01\x02\x03") -> [1,2,3]"""
 	return [ord(l) if type(l) == str else l for l in x]
-  
+	
   
 class HID_Comm(object):
 	"""HID_COMM Object:
@@ -329,3 +329,12 @@ class Spark_Drive(object):
 	
 	def get_ultrasonic(self, ultrasonic_num):
 		return self.comm.get_value(self.unit_ultrasonic, ultrasonic_num, self.setting_USonic)
+	"""
+	def get_ultrasonic_inch(self, ultrasonic_num):
+		raw = self.comm.get_value(self.unit_ultrasonic, ultrasonic_num, self.setting_USonic)
+		return (65535-raw)*(RATIO_TICKS_TO_INCHES)
+		
+	def get_ultrasonic_cm(self, ultrasonic_num):
+		raw = self.comm.get_value(self.unit_ultrasonic, ultrasonic_num, self.setting_USonic)
+		return (65535-raw)*(RATIO_TICKS_TO_CM)
+	"""
