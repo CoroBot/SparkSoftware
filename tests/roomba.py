@@ -57,22 +57,23 @@ def roomba_loop(spark):
 	spark.set_motor_direction(0, 0)
 	spark.set_motor_speed(0, 12500) #0 is all motors
 	
-	while(1)
+	while(1):
 		#read ultrasonics and turn if needed
 
-		left_dist = getDistance(US_LEFT, INCHES)
+		left_dist = getDistance(spark, US_LEFT, INCHES)
 		print("left(1) ultrasonic reads: " + repr(left_dist))
 		if left_dist < MINIMUM_INCHES:
 			turn(spark, RIGHT, 2)
 	
-		right_dist = getDistance(US_RIGHT, INCHES)
+		right_dist = getDistance(spark, US_RIGHT, INCHES)
 		print("right(2) ultrasonic reads: " + repr(right_dist))
 		if right_dist < MINIMUM_INCHES:
 			turn(spark, LEFT, 2)
 		
 		spark.set_motor_speed(0, 12500) #0 is all motors
-		
-def turn(spark, direction, time):
+		time.sleep(0.1)
+
+def turn(spark, direction, turn_time):
 	print("minimum distance detected, turning (1 for left, 2 for right)" + repr(direction))
 	spark.set_motor_speed(0, 0)
 	spark.set_motor_speed(0, 0)
@@ -88,7 +89,7 @@ def turn(spark, direction, time):
 	#spark.set_motor_speed(6, 61000)
 	#spark.set_motor_speed(5, 61000)
 	#spark.set_motor_speed(5, 61000)
-	time.sleep(time)
+	time.sleep(turn_time)
 	
 	#stopping for a half second
 	spark.set_motor_speed(0, 0)
@@ -98,7 +99,7 @@ def turn(spark, direction, time):
 	time.sleep(0.5)
 	
 		
-def getDistance(sensor_num, returnType = INCHES)		
+def getDistance(spark, sensor_num, returnType = INCHES):		
 	ret = 65535-spark.get_ultrasonic(sensor_num)	
 	if returnType == INCHES:
 		return ret #doesnt actually return inches at this point, needs that multiplier
