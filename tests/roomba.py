@@ -26,7 +26,12 @@ INCHES = 0
 CM = 1
 RAW = 2
 
-MINIMUM_INCHES = 2500
+LOOP_DELAY = 0.05
+MINIMUM_INCHES = 3000
+SMOOTH_FACTOR = 0.3
+
+avgLeft = 6000
+avgRight = 6000
 
 def main():
 	#This is how you should connect to your spark. This code must execute
@@ -43,14 +48,8 @@ def main():
 	spark = Spark_Drive(comm)
 	roomba_loop(spark) #call the never ending "drive_loop" function
 	
-def us_loop(spark):
-	while(1):
-		print(65535-spark.get_ultrasonic(1))
-		print(65535-spark.get_ultrasonic(2))
-		time.sleep(1)	
-		
 def roomba_loop(spark):
-	print("roomba loop starting")
+	print("roomba loop starting...")
 	time.sleep(1)
 	
 	#set initial state and put into motion
@@ -59,19 +58,32 @@ def roomba_loop(spark):
 	
 	while(1):
 		#read ultrasonics and turn if needed
-
-		left_dist = getDistance(spark, US_LEFT, INCHES)
-		print("left(1) ultrasonic reads: " + repr(left_dist))
-		if left_dist < MINIMUM_INCHES:
-			turn(spark, RIGHT, 2)
-	
 		right_dist = getDistance(spark, US_RIGHT, INCHES)
-		print("right(2) ultrasonic reads: " + repr(right_dist))
-		if right_dist < MINIMUM_INCHES:
+		left_dist = getDistance(spark, US_LEFT, INCHES)
+		updateAverages(left_dist, right_dist)
+
+		#print("left(1) ultrasonic reads: " + repr(left_dist))
+
+		print("right(2) ultrasonic avg: " + repr(avgRight))
+		print("left(1) ultrasonic avg: " + repr(avgLeft))
+		#if avgLeft < MINIMUM_INCHES:
+			#turn(spark, RIGHT, 2)
+		#print("right(2) ultrasonic reads: " + repr(right_dist))
+		#if rightAvg < MINIMUM_INCHES:
+			#turn(spark, LEFT, 2)
+		if avgLeft < MINIMUM_INCHES or avgRight < MINIMUM_INCHES:
 			turn(spark, LEFT, 2)
-		
+
 		spark.set_motor_speed(0, 12500) #0 is all motors
-		time.sleep(0.1)
+		time.sleep(LOOP_DELAY)
+
+def updateAverages(left_dist, right_dist):
+	global avgLeft
+	global avgRight
+	newLeftAvg = (left_dist*SMOOTH_FACTOR) + (avgLeft * (1-SMOOTH_FACTOR))
+	newRightAvg = (right_dist*SMOOTH_FACTOR) + (avgRight * (1-SMOOTH_FACTOR))
+	avgLeft = newLeftAvg
+	avgRight = newRightAvg
 
 def turn(spark, direction, turn_time):
 	print("minimum distance detected, turning (1 for left, 2 for right)" + repr(direction))
@@ -94,8 +106,8 @@ def turn(spark, direction, turn_time):
 	#stopping for a half second
 	spark.set_motor_speed(0, 0)
 	spark.set_motor_speed(0, 0)
-	spark.set_motor_direction(6, 0)
-	spark.set_motor_direction(6, 0)
+	spark.set_motor_direction(0, 0)
+	spark.set_motor_direction(0, 0)
 	time.sleep(0.5)
 	
 		
