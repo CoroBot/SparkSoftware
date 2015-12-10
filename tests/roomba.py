@@ -6,13 +6,25 @@ import time
 #import constants
 
 '''
-CoroBot spark test script - "drive_loop.py"
+roomba.py
 
-This script lets the spark drive itself over a small area autonomously.
+This script lets the spark drive itself over a small area autonomously, with basic
+obstacle avoidance routines.
 
 By looking at this example code, you can learn how to control the motors
-on the spark kit, as well as insert software delays between actions.
+on the spark kit, as well as use sensor data to make decisions.
 '''
+
+#Constants
+LEFT = 1
+RIGHT = 2
+
+US_LEFT = 1
+US_RIGHT = 2
+
+INCHES = 0
+CM = 1
+RAW = 2
 
 def main():
 	#This is how you should connect to your spark. This code must execute
@@ -27,9 +39,68 @@ def main():
 		sys.exit()
 	
 	spark = Spark_Drive(comm)
-	drive_loop(spark) #call the never ending "drive_loop" function
+	roomba_loop(spark) #call the never ending "drive_loop" function
 	
-
+def us_loop(spark):
+	while(1):
+		print(65535-spark.get_ultrasonic(1))
+		print(65535-spark.get_ultrasonic(2))
+		time.sleep(1)	
+		
+def roomba_loop(spark):
+	time.sleep(1)
+	
+	#set initial state and put into motion
+	spark.set_motor_speed(0, 12500) #0 is all motors
+	
+	while(1)
+		#read ultrasonics
+		left_dist = getDistance(US_LEFT, INCHES)
+		right_dist = getDistance(US_RIGHT, INCHES)
+		
+		if left_dist < MINIMUM_INCHES:
+			#turn_until_clear(RIGHT)
+			turn(spark, RIGHT, 2)	
+		if right_dist < MINIMUM_INCHES:
+			turn(spark, LEFT, 2)
+		
+		spark.set_motor_speed(0, 12500) #0 is all motors
+		
+def turn(spark, direction, time):
+	print("minimum distance detected, turning (1 for left, 2 for right)" + repr(direction))
+	spark.set_motor_speed(0, 0)
+	spark.set_motor_speed(0, 0)
+	time.sleep(0.5)
+	
+	#turn around (skid steer)
+	#print("Turning around for 2 seconds...")
+	spark.set_motor_direction(6, 1)
+	spark.set_motor_direction(6, 1)
+	spark.set_motor_speed(0, 61000)
+	spark.set_motor_speed(0, 61000)
+	#spark.set_motor_speed(6, 61000)
+	#spark.set_motor_speed(6, 61000)
+	#spark.set_motor_speed(5, 61000)
+	#spark.set_motor_speed(5, 61000)
+	time.sleep(time)
+	
+	#stopping for a half second
+	spark.set_motor_speed(0, 0)
+	spark.set_motor_speed(0, 0)
+	spark.set_motor_direction(6, 0)
+	spark.set_motor_direction(6, 0)
+	time.sleep(0.5)
+	
+		
+def getDistance(sensor_num, returnType = INCHES)		
+	ret = 65535-spark.get_ultrasonic(sensor_num)	
+	if returnType == INCHES:
+		return ret #doesnt actually return inches at this point, needs that multiplier
+	elif returnType == CM:
+		return ret*0.5
+	else:
+		return ret
+		
 def drive_loop(spark):
 	while(1):
 		#drive forward
