@@ -26,6 +26,8 @@ INCHES = 0
 CM = 1
 RAW = 2
 
+MINIMUM_INCHES = 2500
+
 def main():
 	#This is how you should connect to your spark. This code must execute
 	#before the raspberry pi can talk to the spark hat.
@@ -48,19 +50,23 @@ def us_loop(spark):
 		time.sleep(1)	
 		
 def roomba_loop(spark):
+	print("roomba loop starting")
 	time.sleep(1)
 	
 	#set initial state and put into motion
+	spark.set_motor_direction(0, 0)
 	spark.set_motor_speed(0, 12500) #0 is all motors
 	
 	while(1)
-		#read ultrasonics
+		#read ultrasonics and turn if needed
+
 		left_dist = getDistance(US_LEFT, INCHES)
-		right_dist = getDistance(US_RIGHT, INCHES)
-		
+		print("left(1) ultrasonic reads: " + repr(left_dist))
 		if left_dist < MINIMUM_INCHES:
-			#turn_until_clear(RIGHT)
-			turn(spark, RIGHT, 2)	
+			turn(spark, RIGHT, 2)
+	
+		right_dist = getDistance(US_RIGHT, INCHES)
+		print("right(2) ultrasonic reads: " + repr(right_dist))
 		if right_dist < MINIMUM_INCHES:
 			turn(spark, LEFT, 2)
 		
