@@ -46,14 +46,21 @@ def main():
 		sys.exit()
 	
 	spark = Spark_Drive(comm)
+
+	#if the spark was running before, stop it.
+	spark.set_motor_speed(0, 0)
+	spark.set_motor_speed(0, 0)
+	spark.set_motor_speed(0, 0)
+
 	roomba_loop(spark) #call the never ending "drive_loop" function
-	
+
 def roomba_loop(spark):
 	print("roomba loop starting...")
-	time.sleep(1)
+	time.sleep(1.5)
 	
 	#set initial state and put into motion
-	spark.set_motor_direction(0, 0)
+	spark.set_motor_direction(0, 1)
+	spark.set_motor_direction(0, 1)
 	spark.set_motor_speed(0, 12500) #0 is all motors
 	
 	while(1):
@@ -89,26 +96,21 @@ def turn(spark, direction, turn_time):
 	print("minimum distance detected, turning (1 for left, 2 for right)" + repr(direction))
 	spark.set_motor_speed(0, 0)
 	spark.set_motor_speed(0, 0)
-	time.sleep(0.5)
+	time.sleep(0.3)
 	
 	#turn around (skid steer)
-	#print("Turning around for 2 seconds...")
-	spark.set_motor_direction(6, 1)
-	spark.set_motor_direction(6, 1)
+	spark.set_motor_direction(6, 0)
+	spark.set_motor_direction(6, 0)
 	spark.set_motor_speed(0, 61000)
 	spark.set_motor_speed(0, 61000)
-	#spark.set_motor_speed(6, 61000)
-	#spark.set_motor_speed(6, 61000)
-	#spark.set_motor_speed(5, 61000)
-	#spark.set_motor_speed(5, 61000)
 	time.sleep(turn_time)
 	
 	#stopping for a half second
 	spark.set_motor_speed(0, 0)
 	spark.set_motor_speed(0, 0)
-	spark.set_motor_direction(0, 0)
-	spark.set_motor_direction(0, 0)
-	time.sleep(0.5)
+	spark.set_motor_direction(6, 1)
+	spark.set_motor_direction(6, 1)
+	time.sleep(0.3)
 	
 		
 def getDistance(spark, sensor_num, returnType = INCHES):		
