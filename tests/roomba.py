@@ -94,6 +94,8 @@ def updateAverages(left_dist, right_dist):
 
 def turn(spark, direction, turn_time):
 	print("minimum distance detected, turning (1 for left, 2 for right)" + repr(direction))
+	
+	#stop for a half second
 	spark.set_motor_speed(0, 0)
 	spark.set_motor_speed(0, 0)
 	time.sleep(0.3)
@@ -121,51 +123,7 @@ def getDistance(spark, sensor_num, returnType = INCHES):
 		return ret*0.5
 	else:
 		return ret
-		
-def drive_loop(spark):
-	while(1):
-		#drive forward
-		print("Driving forward for 3 seconds...")
-		spark.set_motor_speed(6, 12500) #lets give the user these controls: named motor constants, percentage of speed 0-1).
-		spark.set_motor_speed(5, 12500)
-		#repeat command to try and get more consistent sets on motor speed.
-		spark.set_motor_speed(6, 12500)
-		spark.set_motor_speed(5, 12500)
-		
-		time.sleep(3)
-	
-		#stop
-		print("Stopping for 1 second...")
-		spark.set_motor_speed(6, 0)
-		spark.set_motor_speed(5, 0)
-		#repeat command
-		spark.set_motor_speed(6, 0)
-		spark.set_motor_speed(5, 0)	
-		time.sleep(1)
 
-		#turn around (skid steer)
-		print("Turning around for 2 seconds...")
-		spark.set_motor_direction(6, 1)
-		spark.set_motor_direction(6, 1)
-		spark.set_motor_speed(6, 61000)
-		spark.set_motor_speed(5, 61000)
-		spark.set_motor_speed(6, 61000)
-		spark.set_motor_speed(5, 61000)
-		time.sleep(2)
-	
-		#stop turning and set motors back to forward direction
-		print("Stopping for 1 second and then repeating...")
-		spark.set_motor_direction(5, 0)
-		spark.set_motor_direction(6, 0)
-		spark.set_motor_direction(5, 0)
-		spark.set_motor_direction(6, 0)
-		spark.set_motor_speed(5, 0)
-		spark.set_motor_speed(6, 0)
-		spark.set_motor_speed(5, 0)
-		spark.set_motor_speed(6, 0)
-		time.sleep(1)
-		
-	
 if __name__ == '__main__':
 	main()
 
